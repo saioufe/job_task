@@ -26,6 +26,7 @@ class AppLocalization {
       LockKeys.touchId: "USE TOUCH ID",
       LockKeys.enterName: "Enter your name",
       LockKeys.enterPassword: "Enter your Password",
+      LockKeys.forgetPassword: "Have you forget your password",
     },
     "ar": {
       LockKeys.login: "تسجيل الدخول",
@@ -34,6 +35,7 @@ class AppLocalization {
       LockKeys.touchId: "استخدم بصمة اليد",
       LockKeys.enterName: "ادخل الاسم",
       LockKeys.enterPassword: "ادخل كلمة المرور",
+      LockKeys.forgetPassword: "هل نسيت كلمة المرور",
     },
   };
 

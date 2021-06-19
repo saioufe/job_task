@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:job_task/localization/app_localization.dart';
 import 'package:job_task/store/Login_store.dart';
 import 'package:parallax_rain/parallax_rain.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +146,8 @@ class _SecondPageState extends State<SecondPage> {
                         borderSide:
                             const BorderSide(color: Colors.white, width: 1.0),
                       ),
-                      hintText: "Enter Your Name",
+                      hintText: AppLocalization.of(context)
+                          .localize(LockKeys.enterName),
                       hintStyle: TextStyle(color: Colors.white),
                       suffixIcon: Icon(
                         Icons.person_add_outlined,
@@ -165,7 +167,8 @@ class _SecondPageState extends State<SecondPage> {
                         borderSide:
                             const BorderSide(color: Colors.white, width: 1.0),
                       ),
-                      hintText: "Enter Your Password",
+                      hintText: AppLocalization.of(context)
+                          .localize(LockKeys.enterPassword),
                       hintStyle: TextStyle(color: Colors.white),
                       suffixIcon: Icon(
                         Icons.vpn_key_outlined,
@@ -178,7 +181,7 @@ class _SecondPageState extends State<SecondPage> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 20),
                 child: Text(
-                  "Did you forget your password",
+                  AppLocalization.of(context).localize(LockKeys.forgetPassword),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText2.copyWith(
                       fontSize: 14, color: Colors.white.withOpacity(0.5)),
@@ -222,7 +225,7 @@ class _SecondPageState extends State<SecondPage> {
                       borderRadius: BorderRadius.circular(50)),
                   child: Center(
                     child: Text(
-                      "Register",
+                      AppLocalization.of(context).localize(LockKeys.register),
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -268,10 +271,10 @@ class FirstPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50)),
                 child: Center(
                   child: Text(
-                    "Login",
+                    AppLocalization.of(context).localize(LockKeys.login),
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                           fontWeight: FontWeight.bold,
-                          fontSize: 17,
+                          fontSize: 14,
                         ),
                   ),
                 ),
@@ -292,7 +295,7 @@ class FirstPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50)),
                 child: Center(
                   child: Text(
-                    "Register",
+                    AppLocalization.of(context).localize(LockKeys.register),
                     style: Theme.of(context).textTheme.bodyText1.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
@@ -307,7 +310,7 @@ class FirstPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 20),
           child: Text(
-            "Now! Quick login use your touch ID",
+            AppLocalization.of(context).localize(LockKeys.quickLogin),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 17),
           ),
@@ -329,7 +332,7 @@ class FirstPage extends StatelessWidget {
         Container(
           width: MediaQuery.of(context).size.width,
           child: Text(
-            "USE TOUCH ID!",
+            AppLocalization.of(context).localize(LockKeys.touchId),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText2.copyWith(fontSize: 17),
           ),
