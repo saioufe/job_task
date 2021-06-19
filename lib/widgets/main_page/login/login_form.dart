@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:job_task/store/Login_store.dart';
 import 'package:parallax_rain/parallax_rain.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm();
@@ -8,24 +10,13 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final _key = GlobalKey<FormState>();
+  // final _key = GlobalKey<FormState>();
   PageController controller;
-  TextEditingController userNameController;
-  TextEditingController passwordController;
-
   @override
   void initState() {
     controller = PageController(initialPage: 0);
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    userNameController.dispose();
-    passwordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -88,8 +79,6 @@ class _LoginFormState extends State<LoginForm> {
                             pageController: controller,
                           ),
                           SecondPage(
-                            userNameController: userNameController,
-                            passwordController: passwordController,
                             pageController: controller,
                           )
                         ],
@@ -106,109 +95,145 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-class SecondPage extends StatelessWidget {
+class SecondPage extends StatefulWidget {
   const SecondPage({
-    Key key,
-    @required this.userNameController,
-    @required this.passwordController,
     @required this.pageController,
-  }) : super(key: key);
+  });
 
-  final TextEditingController userNameController;
-  final TextEditingController passwordController;
   final PageController pageController;
 
   @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  GlobalKey<ScaffoldState> key = GlobalKey();
+  @override
+  void dispose() {
+    userNameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.only(right: 30, left: 30, bottom: 30),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(
-            20,
+    return Scaffold(
+      key: key,
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(right: 30, left: 30, bottom: 30),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(
+              20,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(15),
-              child: TextFormField(
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.left,
-                controller: userNameController,
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 1.0),
-                    ),
-                    hintText: "Enter Your Name",
-                    hintStyle: TextStyle(color: Colors.white),
-                    suffixIcon: Icon(
-                      Icons.person_add_outlined,
-                      color: Colors.white,
-                    )),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(15),
-              child: TextFormField(
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.left,
-                controller: passwordController,
-                cursorColor: Colors.white,
-                decoration: InputDecoration(
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.white, width: 1.0),
-                    ),
-                    hintText: "Enter Your Password",
-                    hintStyle: TextStyle(color: Colors.white),
-                    suffixIcon: Icon(
-                      Icons.vpn_key_outlined,
-                      color: Colors.white,
-                    )),
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(top: 20),
-              child: Text(
-                "Did you forget your password",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    fontSize: 14, color: Colors.white.withOpacity(0.5)),
-              ),
-            ),
-            SizedBox(height: 20),
-            InkWell(
-              onTap: () {
-                //Navigator.of(context)?.pushNamed(RouteGenerator.searchPage);
-                pageController.animateToPage(0,
-                    duration: Duration(milliseconds: 100),
-                    curve: Curves.easeOut);
-              },
-              child: Container(
-                width: 100,
+          child: Column(
+            children: [
+              Container(
                 padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(50)),
-                child: Center(
-                  child: Text(
-                    "Register",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.left,
+                  controller: userNameController,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      hintText: "Enter Your Name",
+                      hintStyle: TextStyle(color: Colors.white),
+                      suffixIcon: Icon(
+                        Icons.person_add_outlined,
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.left,
+                  controller: passwordController,
+                  cursorColor: Colors.white,
+                  decoration: InputDecoration(
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      hintText: "Enter Your Password",
+                      hintStyle: TextStyle(color: Colors.white),
+                      suffixIcon: Icon(
+                        Icons.vpn_key_outlined,
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.only(top: 20),
+                child: Text(
+                  "Did you forget your password",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontSize: 14, color: Colors.white.withOpacity(0.5)),
+                ),
+              ),
+              SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  //Navigator.of(context)?.pushNamed(RouteGenerator.searchPage);
+                  // pageController.animateToPage(0,
+                  //     duration: Duration(milliseconds: 100),
+                  //     curve: Curves.easeOut);
+                  if (userNameController.text == "" ||
+                      passwordController.text == "") {
+                    key.currentState.showSnackBar(
+                      SnackBar(
+                        content: Text("please enter all the field"),
+                      ),
+                    );
+                  } else {
+                    if (userNameController.text != "task" ||
+                        passwordController.text != "task1234") {
+                      key.currentState.showSnackBar(
+                        SnackBar(
+                          content: Text("wrong password and username"),
                         ),
+                      );
+                    } else {
+                      final loginStore =
+                          Provider.of<LoginStore>(context, listen: false);
+                      loginStore.login(
+                          userNameController.text, passwordController.text);
+                    }
+                  }
+                },
+                child: Container(
+                  width: 100,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Center(
+                    child: Text(
+                      "Register",
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-          ],
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

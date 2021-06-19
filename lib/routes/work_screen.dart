@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:job_task/store/Login_store.dart';
 import 'package:job_task/widgets/main_page/cards_work.dart';
+import 'package:provider/provider.dart';
 
 class WorkScreen extends StatelessWidget {
   const WorkScreen();
@@ -14,15 +16,22 @@ class WorkScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.shopping_cart_outlined,
-                    color: Colors.white.withOpacity(0.7),
+                InkWell(
+                  onTap: () {
+                    final loginStore =
+                        Provider.of<LoginStore>(context, listen: false);
+                    loginStore.logOut();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.logout,
+                      color: Colors.white.withOpacity(0.7),
+                    ),
                   ),
                 ),
                 Text(

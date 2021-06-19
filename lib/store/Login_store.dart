@@ -23,6 +23,7 @@ abstract class _LoginStore with Store {
 
   @computed
   StoreState get state {
+    //print(" this is the status state : " + _loginFuture.status.toString());
     if (_loginFuture == null || _loginFuture.status == FutureStatus.rejected) {
       return StoreState.initial;
     }
@@ -39,6 +40,17 @@ abstract class _LoginStore with Store {
           ObservableFuture(_userRepository.fakeLogIn(username, password));
     } catch (e) {
       errorMessage = "Couldn't LoggedIn. Is the device online?";
+    }
+  }
+
+  @action
+  void logOut() {
+    try {
+      print("logout");
+      StoreState.logedOut;
+      _loginFuture = ObservableFuture(_userRepository.logout());
+    } catch (e) {
+      errorMessage = "something Went Wrong!";
     }
   }
 }

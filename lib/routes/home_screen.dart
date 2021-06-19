@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:job_task/routes/work_screen.dart';
@@ -16,72 +15,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  TabController tabController;
+  LoginStore _loginStore;
 
+  List<ReactionDisposer> _disposers;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   @override
-  void initState() {
-    tabController = TabController(length: 2, vsync: this);
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _loginStore ??= Provider.of<LoginStore>(context);
+    _disposers ??= [
+      reaction(
+        (_) => _loginStore.errorMessage,
+        (String message) {
+          _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+          );
+        },
+      ),
+    ];
   }
 
-  @override
-  void dispose() {
-    tabController.dispose();
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  void loginTransition() {
-    if (tabController.index != 1) tabController.animateTo(1);
-  }
-
-  void logoutTransition() {
-    if (tabController.index != 0) tabController.animateTo(0);
-  }
-
-  String phoneNumber = "0";
   @override
   Widget build(BuildContext context) {
-    LoginStore _loginStore;
-
-    List<ReactionDisposer> _disposers;
-    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
-    @override
-    void didChangeDependencies() {
-      super.didChangeDependencies();
-
-      _loginStore ??= Provider.of<LoginStore>(context);
-      _disposers ??= [
-        reaction(
-          (_) => _loginStore.errorMessage,
-          (String message) {
-            _scaffoldKey.currentState.showSnackBar(
-              SnackBar(
-                content: Text(message),
-              ),
-            );
-          },
-        ),
-      ];
-    }
-
-    return TabBarView(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: tabController,
-      children: [],
-    );
     return Scaffold(
       body: Observer(
         builder: (_) {
           switch (_loginStore.state) {
             case StoreState.initial:
-            // return buildInitialInput();
+              return LoginPage();
             case StoreState.loading:
-            // return buildLoading();
+            //   return LoginPage();
             case StoreState.logedIn:
               return WorkScreen();
-
               break;
             case StoreState.logedOut:
               return LoginPage();

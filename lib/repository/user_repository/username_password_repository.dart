@@ -37,9 +37,10 @@ class UsernamePasswordUserRepository extends UserRepository {
 
   @override
   Future<String> logout() async {
-    await Future.delayed(Duration(seconds: 2), () {
-      return "loggedOut";
-    });
+    return Future.error("log me out");
+    // await Future.delayed(Duration(seconds: 2), () {
+    //   return "loggedOut";
+    // });
   }
 
   @override
